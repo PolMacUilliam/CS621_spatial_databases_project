@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        #map {
+            width: 804px;
+            height: 847px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/all_ireland_small_areas_1.js"></script>
+        <script src="data/cs621_project_kildare_small_areas_2.js"></script>
+        <script src="data/cs621_project_newbridge_small_areas_3.js"></script>
+        <script src="data/cs621_project_kildare_small_areas_centroids_4.js"></script>
+        <script src="data/cs621_project_newbridge_small_areas_centroids_clipped_5.js"></script>
+        <script src="data/cs621_project_kildare_route_pts_6.js"></script>
+        <script src="data/cs621_project_kildare_route_line_7.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[52.815361948966725,-7.108440897982657],[53.498476553846515,-6.460088338084912]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>');
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            opacity: 1.0
+        });
+        layer_OSMStandard_0.addTo(map);
+        map.addLayer(layer_OSMStandard_0);
+        function pop_all_ireland_small_areas_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['objectid'] !== null ? Autolinker.link(String(feature.properties['objectid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['guid'] !== null ? Autolinker.link(String(feature.properties['guid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['nuts1'] !== null ? Autolinker.link(String(feature.properties['nuts1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['nuts1name'] !== null ? Autolinker.link(String(feature.properties['nuts1name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['nuts2'] !== null ? Autolinker.link(String(feature.properties['nuts2'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['nuts2name'] !== null ? Autolinker.link(String(feature.properties['nuts2name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['nuts3'] !== null ? Autolinker.link(String(feature.properties['nuts3'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['nuts3name'] !== null ? Autolinker.link(String(feature.properties['nuts3name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['county'] !== null ? Autolinker.link(String(feature.properties['county'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['countyname'] !== null ? Autolinker.link(String(feature.properties['countyname'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['csoed'] !== null ? Autolinker.link(String(feature.properties['csoed'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['osied'] !== null ? Autolinker.link(String(feature.properties['osied'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['edname'] !== null ? Autolinker.link(String(feature.properties['edname'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['sa_pub2011'] !== null ? Autolinker.link(String(feature.properties['sa_pub2011'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['small_area'] !== null ? Autolinker.link(String(feature.properties['small_area'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['geogid'] !== null ? Autolinker.link(String(feature.properties['geogid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['area'] !== null ? Autolinker.link(String(feature.properties['area'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['changecode'] !== null ? Autolinker.link(String(feature.properties['changecode'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['esri_oid'] !== null ? Autolinker.link(String(feature.properties['esri_oid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['geogid_1'] !== null ? Autolinker.link(String(feature.properties['geogid_1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['geogdesc'] !== null ? Autolinker.link(String(feature.properties['geogdesc'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t1_1agetm'] !== null ? Autolinker.link(String(feature.properties['t1_1agetm'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t1_1agetf'] !== null ? Autolinker.link(String(feature.properties['t1_1agetf'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t1_1agett'] !== null ? Autolinker.link(String(feature.properties['t1_1agett'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t6_8_o'] !== null ? Autolinker.link(String(feature.properties['t6_8_o'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t6_8_ta'] !== null ? Autolinker.link(String(feature.properties['t6_8_ta'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t6_8_uhh'] !== null ? Autolinker.link(String(feature.properties['t6_8_uhh'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t6_8_ovd'] !== null ? Autolinker.link(String(feature.properties['t6_8_ovd'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t6_8_t'] !== null ? Autolinker.link(String(feature.properties['t6_8_t'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_ncu15'] !== null ? Autolinker.link(String(feature.properties['t4_2_ncu15'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_1cu15'] !== null ? Autolinker.link(String(feature.properties['t4_2_1cu15'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_2cu15'] !== null ? Autolinker.link(String(feature.properties['t4_2_2cu15'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_3cu15'] !== null ? Autolinker.link(String(feature.properties['t4_2_3cu15'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_4cu15'] !== null ? Autolinker.link(String(feature.properties['t4_2_4cu15'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_ge5cu'] !== null ? Autolinker.link(String(feature.properties['t4_2_ge5cu'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_tcu15'] !== null ? Autolinker.link(String(feature.properties['t4_2_tcu15'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_nco15'] !== null ? Autolinker.link(String(feature.properties['t4_2_nco15'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_1co15'] !== null ? Autolinker.link(String(feature.properties['t4_2_1co15'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_2co15'] !== null ? Autolinker.link(String(feature.properties['t4_2_2co15'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_3co15'] !== null ? Autolinker.link(String(feature.properties['t4_2_3co15'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_4co15'] !== null ? Autolinker.link(String(feature.properties['t4_2_4co15'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_ge5co'] !== null ? Autolinker.link(String(feature.properties['t4_2_ge5co'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_tco15'] !== null ? Autolinker.link(String(feature.properties['t4_2_tco15'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_ncuo1'] !== null ? Autolinker.link(String(feature.properties['t4_2_ncuo1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_1cuo1'] !== null ? Autolinker.link(String(feature.properties['t4_2_1cuo1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_2cuo1'] !== null ? Autolinker.link(String(feature.properties['t4_2_2cuo1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_3cuo1'] !== null ? Autolinker.link(String(feature.properties['t4_2_3cuo1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_4cuo1'] !== null ? Autolinker.link(String(feature.properties['t4_2_4cuo1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_ge5_1'] !== null ? Autolinker.link(String(feature.properties['t4_2_ge5_1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_tcuo1'] !== null ? Autolinker.link(String(feature.properties['t4_2_tcuo1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_nct'] !== null ? Autolinker.link(String(feature.properties['t4_2_nct'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_1ct'] !== null ? Autolinker.link(String(feature.properties['t4_2_1ct'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_2ct'] !== null ? Autolinker.link(String(feature.properties['t4_2_2ct'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_3ct'] !== null ? Autolinker.link(String(feature.properties['t4_2_3ct'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_4ct'] !== null ? Autolinker.link(String(feature.properties['t4_2_4ct'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_ge5ct'] !== null ? Autolinker.link(String(feature.properties['t4_2_ge5ct'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_tct'] !== null ? Autolinker.link(String(feature.properties['t4_2_tct'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['shape__are'] !== null ? Autolinker.link(String(feature.properties['shape__are'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['shape__len'] !== null ? Autolinker.link(String(feature.properties['shape__len'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_all_ireland_small_areas_1_0() {
+            return {
+                pane: 'pane_all_ireland_small_areas_1',
+                opacity: 1,
+                color: 'rgba(38,89,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(194,224,246,1.0)',
+            }
+        }
+        map.createPane('pane_all_ireland_small_areas_1');
+        map.getPane('pane_all_ireland_small_areas_1').style.zIndex = 401;
+        map.getPane('pane_all_ireland_small_areas_1').style['mix-blend-mode'] = 'normal';
+        var layer_all_ireland_small_areas_1 = new L.geoJson(json_all_ireland_small_areas_1, {
+            attribution: '',
+            pane: 'pane_all_ireland_small_areas_1',
+            onEachFeature: pop_all_ireland_small_areas_1,
+            style: style_all_ireland_small_areas_1_0,
+        });
+        bounds_group.addLayer(layer_all_ireland_small_areas_1);
+        map.addLayer(layer_all_ireland_small_areas_1);
+        function pop_cs621_project_kildare_small_areas_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['objectid'] !== null ? Autolinker.link(String(feature.properties['objectid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['guid'] !== null ? Autolinker.link(String(feature.properties['guid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['county'] !== null ? Autolinker.link(String(feature.properties['county'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['countyname'] !== null ? Autolinker.link(String(feature.properties['countyname'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['edname'] !== null ? Autolinker.link(String(feature.properties['edname'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['small_area'] !== null ? Autolinker.link(String(feature.properties['small_area'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['geogid'] !== null ? Autolinker.link(String(feature.properties['geogid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['geogid_1'] !== null ? Autolinker.link(String(feature.properties['geogid_1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['geogdesc'] !== null ? Autolinker.link(String(feature.properties['geogdesc'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_tct'] !== null ? Autolinker.link(String(feature.properties['t4_2_tct'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['shape__are'] !== null ? Autolinker.link(String(feature.properties['shape__are'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['shape__len'] !== null ? Autolinker.link(String(feature.properties['shape__len'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_cs621_project_kildare_small_areas_2_0(feature) {
+            if (feature.properties['t4_2_tct'] >= 0.000000 && feature.properties['t4_2_tct'] <= 52.000000 ) {
+                return {
+                pane: 'pane_cs621_project_kildare_small_areas_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,252,245,1.0)',
+            }
+            }
+            if (feature.properties['t4_2_tct'] >= 52.000000 && feature.properties['t4_2_tct'] <= 73.000000 ) {
+                return {
+                pane: 'pane_cs621_project_kildare_small_areas_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(202,234,195,1.0)',
+            }
+            }
+            if (feature.properties['t4_2_tct'] >= 73.000000 && feature.properties['t4_2_tct'] <= 91.000000 ) {
+                return {
+                pane: 'pane_cs621_project_kildare_small_areas_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(123,200,124,1.0)',
+            }
+            }
+            if (feature.properties['t4_2_tct'] >= 91.000000 && feature.properties['t4_2_tct'] <= 110.000000 ) {
+                return {
+                pane: 'pane_cs621_project_kildare_small_areas_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(42,146,74,1.0)',
+            }
+            }
+            if (feature.properties['t4_2_tct'] >= 110.000000 && feature.properties['t4_2_tct'] <= 141.000000 ) {
+                return {
+                pane: 'pane_cs621_project_kildare_small_areas_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,68,27,1.0)',
+            }
+            }
+        }
+        map.createPane('pane_cs621_project_kildare_small_areas_2');
+        map.getPane('pane_cs621_project_kildare_small_areas_2').style.zIndex = 402;
+        map.getPane('pane_cs621_project_kildare_small_areas_2').style['mix-blend-mode'] = 'normal';
+        var layer_cs621_project_kildare_small_areas_2 = new L.geoJson(json_cs621_project_kildare_small_areas_2, {
+            attribution: '',
+            pane: 'pane_cs621_project_kildare_small_areas_2',
+            onEachFeature: pop_cs621_project_kildare_small_areas_2,
+            style: style_cs621_project_kildare_small_areas_2_0,
+        });
+        bounds_group.addLayer(layer_cs621_project_kildare_small_areas_2);
+        map.addLayer(layer_cs621_project_kildare_small_areas_2);
+        function pop_cs621_project_newbridge_small_areas_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['objectid'] !== null ? Autolinker.link(String(feature.properties['objectid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['guid'] !== null ? Autolinker.link(String(feature.properties['guid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['county'] !== null ? Autolinker.link(String(feature.properties['county'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['countyname'] !== null ? Autolinker.link(String(feature.properties['countyname'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['edname'] !== null ? Autolinker.link(String(feature.properties['edname'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['small_area'] !== null ? Autolinker.link(String(feature.properties['small_area'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['geogid'] !== null ? Autolinker.link(String(feature.properties['geogid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['geogid_1'] !== null ? Autolinker.link(String(feature.properties['geogid_1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['geogdesc'] !== null ? Autolinker.link(String(feature.properties['geogdesc'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_tct'] !== null ? Autolinker.link(String(feature.properties['t4_2_tct'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['shape__are'] !== null ? Autolinker.link(String(feature.properties['shape__are'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['shape__len'] !== null ? Autolinker.link(String(feature.properties['shape__len'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_cs621_project_newbridge_small_areas_3_0() {
+            return {
+                pane: 'pane_cs621_project_newbridge_small_areas_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,244,35,1.0)',
+            }
+        }
+        map.createPane('pane_cs621_project_newbridge_small_areas_3');
+        map.getPane('pane_cs621_project_newbridge_small_areas_3').style.zIndex = 403;
+        map.getPane('pane_cs621_project_newbridge_small_areas_3').style['mix-blend-mode'] = 'normal';
+        var layer_cs621_project_newbridge_small_areas_3 = new L.geoJson(json_cs621_project_newbridge_small_areas_3, {
+            attribution: '',
+            pane: 'pane_cs621_project_newbridge_small_areas_3',
+            onEachFeature: pop_cs621_project_newbridge_small_areas_3,
+            style: style_cs621_project_newbridge_small_areas_3_0,
+        });
+        bounds_group.addLayer(layer_cs621_project_newbridge_small_areas_3);
+        map.addLayer(layer_cs621_project_newbridge_small_areas_3);
+        function pop_cs621_project_kildare_small_areas_centroids_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['countyname'] !== null ? Autolinker.link(String(feature.properties['countyname'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['edname'] !== null ? Autolinker.link(String(feature.properties['edname'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['small_area'] !== null ? Autolinker.link(String(feature.properties['small_area'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_tct'] !== null ? Autolinker.link(String(feature.properties['t4_2_tct'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['shape__are'] !== null ? Autolinker.link(String(feature.properties['shape__are'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_cs621_project_kildare_small_areas_centroids_4_0() {
+            return {
+                pane: 'pane_cs621_project_kildare_small_areas_centroids_4',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(50,87,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(72,123,182,1.0)',
+            }
+        }
+        map.createPane('pane_cs621_project_kildare_small_areas_centroids_4');
+        map.getPane('pane_cs621_project_kildare_small_areas_centroids_4').style.zIndex = 404;
+        map.getPane('pane_cs621_project_kildare_small_areas_centroids_4').style['mix-blend-mode'] = 'normal';
+        var layer_cs621_project_kildare_small_areas_centroids_4 = new L.geoJson(json_cs621_project_kildare_small_areas_centroids_4, {
+            attribution: '',
+            pane: 'pane_cs621_project_kildare_small_areas_centroids_4',
+            onEachFeature: pop_cs621_project_kildare_small_areas_centroids_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_cs621_project_kildare_small_areas_centroids_4_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_cs621_project_kildare_small_areas_centroids_4);
+        map.addLayer(layer_cs621_project_kildare_small_areas_centroids_4);
+        function pop_cs621_project_newbridge_small_areas_centroids_clipped_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['countyname'] !== null ? Autolinker.link(String(feature.properties['countyname'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['edname'] !== null ? Autolinker.link(String(feature.properties['edname'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['small_area'] !== null ? Autolinker.link(String(feature.properties['small_area'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['t4_2_tct'] !== null ? Autolinker.link(String(feature.properties['t4_2_tct'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['shape__are'] !== null ? Autolinker.link(String(feature.properties['shape__are'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_cs621_project_newbridge_small_areas_centroids_clipped_5_0() {
+            return {
+                pane: 'pane_cs621_project_newbridge_small_areas_centroids_clipped_5',
+                radius: 2.0,
+                opacity: 1,
+                color: 'rgba(128,17,25,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,30,42,1.0)',
+            }
+        }
+        map.createPane('pane_cs621_project_newbridge_small_areas_centroids_clipped_5');
+        map.getPane('pane_cs621_project_newbridge_small_areas_centroids_clipped_5').style.zIndex = 405;
+        map.getPane('pane_cs621_project_newbridge_small_areas_centroids_clipped_5').style['mix-blend-mode'] = 'normal';
+        var layer_cs621_project_newbridge_small_areas_centroids_clipped_5 = new L.geoJson(json_cs621_project_newbridge_small_areas_centroids_clipped_5, {
+            attribution: '',
+            pane: 'pane_cs621_project_newbridge_small_areas_centroids_clipped_5',
+            onEachFeature: pop_cs621_project_newbridge_small_areas_centroids_clipped_5,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_cs621_project_newbridge_small_areas_centroids_clipped_5_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_cs621_project_newbridge_small_areas_centroids_clipped_5);
+        map.addLayer(layer_cs621_project_newbridge_small_areas_centroids_clipped_5);
+        function pop_cs621_project_kildare_route_pts_6(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['pkid'] !== null ? Autolinker.link(String(feature.properties['pkid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['pt_id'] !== null ? Autolinker.link(String(feature.properties['pt_id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['pt_name'] !== null ? Autolinker.link(String(feature.properties['pt_name'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_cs621_project_kildare_route_pts_6_0() {
+            return {
+                pane: 'pane_cs621_project_kildare_route_pts_6',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(172,5,238,1.0)',
+            }
+        }
+        map.createPane('pane_cs621_project_kildare_route_pts_6');
+        map.getPane('pane_cs621_project_kildare_route_pts_6').style.zIndex = 406;
+        map.getPane('pane_cs621_project_kildare_route_pts_6').style['mix-blend-mode'] = 'normal';
+        var layer_cs621_project_kildare_route_pts_6 = new L.geoJson(json_cs621_project_kildare_route_pts_6, {
+            attribution: '',
+            pane: 'pane_cs621_project_kildare_route_pts_6',
+            onEachFeature: pop_cs621_project_kildare_route_pts_6,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_cs621_project_kildare_route_pts_6_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_cs621_project_kildare_route_pts_6);
+        map.addLayer(layer_cs621_project_kildare_route_pts_6);
+        function pop_cs621_project_kildare_route_line_7(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['begin'] !== null ? Autolinker.link(String(feature.properties['begin'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['end'] !== null ? Autolinker.link(String(feature.properties['end'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_cs621_project_kildare_route_line_7_0() {
+            return {
+                pane: 'pane_cs621_project_kildare_route_line_7',
+                opacity: 1,
+                color: 'rgba(164,113,88,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+            }
+        }
+        map.createPane('pane_cs621_project_kildare_route_line_7');
+        map.getPane('pane_cs621_project_kildare_route_line_7').style.zIndex = 407;
+        map.getPane('pane_cs621_project_kildare_route_line_7').style['mix-blend-mode'] = 'normal';
+        var layer_cs621_project_kildare_route_line_7 = new L.geoJson(json_cs621_project_kildare_route_line_7, {
+            attribution: '',
+            pane: 'pane_cs621_project_kildare_route_line_7',
+            onEachFeature: pop_cs621_project_kildare_route_line_7,
+            style: style_cs621_project_kildare_route_line_7_0,
+        });
+        bounds_group.addLayer(layer_cs621_project_kildare_route_line_7);
+        map.addLayer(layer_cs621_project_kildare_route_line_7);
+        setBounds();
+        </script>
+    </body>
+</html>
